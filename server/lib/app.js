@@ -29,6 +29,24 @@ var initDatum = function () {
 }
 
 APP.init = function () {
-    initDatum();
+    //initDatum();
     initTwitter();
+}
+
+APP.analyze = function (name) {
+    var query = {
+        q: name,
+        count: 100,
+        lang: 'en',
+        result_type: 'recent'
+
+    };
+    TWITTER.get('search/tweets', query, function(err, data, response) {
+        if (data) {
+            var tweets = data.statuses;
+            for (var i = 0; i < tweets.length; i++) {
+                console.log(tweets[i].text);
+            }
+        }
+    });
 }
