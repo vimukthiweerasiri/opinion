@@ -1,4 +1,4 @@
 Meteor.startup(function(){
     APP.init();
-    APP.analyze('mark zuckerburg');
+    APP.analyze('mahinda rajapakshe');
 });

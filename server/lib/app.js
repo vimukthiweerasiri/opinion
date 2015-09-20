@@ -28,28 +28,86 @@ var initDatum = function () {
     }
 }
 
+var getTweets = function (name) {
+    var getTweetsAsync = function (name, callBack) {
+        var query = {
+            q: name,
+            count: 100,
+            lang: 'en',
+            result_type: 'recent'
+
+        };
+        TWITTER.get('search/tweets', query, function(err, data) {
+            callBack(null, {err: err, data: data});
+        });
+    }
+
+    var wrappedGetTweetAsync = Meteor.wrapAsync(getTweetsAsync);
+    return wrappedGetTweetAsync(name);
+}
+
+var shouldUpdated = function(name) {
+    return true;
+}
+
+var updateWithSentiment = function (tweets, callback) {
+    var count = tweets.length;
+    var positive = 0, negative = 0, neutral = 0;
+    console.log(count);
+    tweets.forEach(function (tweetInfo, index) {
+        var tweet = tweetInfo.text;
+
+        var cachedSentiment = SentimentCache.findOne({tweet: tweet}, {fields: {sentiment: 1, _id: 0}});
+        if (cachedSentiment) {
+            switch (cachedSentiment.sentiment) {
+                case 1: positive++; break;
+                case 0: neutral++; break;
+                case -1: negative++; break;
+            }
+            count--;
+            console.log('FROM CACHE');
+            if(count == 0) {
+                console.log('FINISHED UP')
+                callback(null, {positive: positive, neutral: neutral, negative: negative});
+            }
+        } else {
+            DATUM.twitterSentimentAnalysis(tweet, Meteor.bindEnvironment(function(err, resultSentiment) {
+                var result = -2;
+                switch (resultSentiment){
+                    case 'positive': result = 1; positive++; break;
+                    case 'neutral': result = 0; neutral++; break;
+                    case 'negative': result = -1;negative++; break;
+                }
+                SentimentCache.insert({tweet: tweet, sentiment: result});
+                count--;
+                console.log('FROM DATUM');
+                if (count == 0) {
+                    console.log("FINISHED DOWN");
+                    callback(null, {positive: positive, neutral: neutral, negative: negative});
+                }
+            }));
+        }
+    });
+}
+
+
 APP.init = function () {
     initDatum();
     initTwitter();
 }
 
 APP.analyze = function (name) {
-    var query = {
-        q: name,
-        count: 100,
-        lang: 'en',
-        result_type: 'recent'
+    var tweetData= getTweets(name);
+    if(!tweetData.err && tweetData.data.statuses.length > 0) {
+        var tweets = tweetData.data.statuses;
 
-    };
-    TWITTER.get('search/tweets', query, function(err, data, response) {
-        if (data) {
-            var tweets = data.statuses;
-            for (var i = 0; i < tweets.length; i++) {
-                console.log(i, tweets[i].text);
-                DATUM.twitterSentimentAnalysis(tweets[i].text, function(err, resultSentiment) {
-                    console.log(resultSentiment);
-                });
-            }
-        }
-    });
+        updateWithSentiment(tweets, function (err, results) {
+            console.log(results);
+        });
+
+    } else {
+        console.log('no data || Error:', tweetData.err);
+    }
 }
+
+
