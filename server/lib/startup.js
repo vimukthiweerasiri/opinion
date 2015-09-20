@@ -1,4 +1,4 @@
 Meteor.startup(function(){
     APP.init();
-    APP.analyze('ranjan ramanayake');
+    APP.analyze('mark zuckerburg');
 });

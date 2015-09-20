@@ -29,7 +29,7 @@ var initDatum = function () {
 }
 
 APP.init = function () {
-    //initDatum();
+    initDatum();
     initTwitter();
 }
 
@@ -45,7 +45,10 @@ APP.analyze = function (name) {
         if (data) {
             var tweets = data.statuses;
             for (var i = 0; i < tweets.length; i++) {
-                console.log(tweets[i].text);
+                console.log(i, tweets[i].text);
+                DATUM.twitterSentimentAnalysis(tweets[i].text, function(err, resultSentiment) {
+                    console.log(resultSentiment);
+                });
             }
         }
     });
