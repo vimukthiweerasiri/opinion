@@ -19,8 +19,8 @@ Meteor.methods({
 var abc = function () {
     var ttt = function (callback) {
         setTimeout(function () {
-            callback(null, {negative: 4, neutral:5, positive:8});
-        }, 2000);
+            callback(null, {negative: 4, neutral:5+ (Math.random() * 10), positive:8});
+        }, 5000);
     }
     var TTT = Meteor.wrapAsync(ttt);
     return TTT();

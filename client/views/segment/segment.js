@@ -1,11 +1,11 @@
+var context = null;
 Template.segment.created = function () {
     var name = Template.currentData();
-    $("#statistics").hide();
     Meteor.call('analyze', name, function (err, result) {
-        console.log(result, 'CAME');
         Session.set(name, result);
-    })
+    });
 }
+
 
 Template.segment.helpers({
     'name': function () {
@@ -25,12 +25,9 @@ Template.segment.helpers({
                 showNoSufficientInfo();
                 return {negative: 0, neutral:0, positive:0};
             }
-            $("#loading").hide();
-            $("#statistics").show();
             var positive = Math.ceil((result.positive * 100) / total);
             var negative = Math.ceil((result.negative * 100) / total);
             var neutral = 100 - positive - negative;
-            console.log({negative: negative, neutral: neutral, positive: positive});
             return {negative: negative, neutral: neutral, positive: positive};
         }
          else{
@@ -38,7 +35,6 @@ Template.segment.helpers({
         }
     }
 });
-
 var showNoSufficientInfo = function () {
     
 }

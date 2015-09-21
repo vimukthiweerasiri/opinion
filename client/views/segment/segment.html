@@ -1,11 +1,12 @@
 <template name = "segment">
     <div class="ui segment">
         <h3 class="ui header" >{{name}}</h3>
-        <div>
+        <div hidden>
             <div class="ui active inverted dimmer" id="loading">
                 <div class="ui indeterminate text loader">Fetching data and analyzing...</div>
             </div>
         </div>
+        <p id="abc"></p>
         <div id="statistics">
             <div class="ui statistics">
                 <div class="red statistic">
