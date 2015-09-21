@@ -124,7 +124,8 @@ var analyze = function (name, callback) {
         });
 
     } else {
-        console.log('no data || Error:', tweetData.err);
+        //console.log('no data || Error:', tweetData.err);
+        callback(null, {});
     }
 }
 

@@ -8,7 +8,20 @@ Meteor.methods({
         return 'second workingkjkkjk';
     },
     'analyze': function (name) {
-        this.unblock();
-        return APP.analyze(name);
+        //this.unblock();
+        //var ttt = APP.analyze(name);
+        //console.log(ttt);
+        //return ttt;
+        return abc();
     }
 });
+
+var abc = function () {
+    var ttt = function (callback) {
+        setTimeout(function () {
+            callback(null, {negative: 4, neutral:5, positive:8});
+        }, 2000);
+    }
+    var TTT = Meteor.wrapAsync(ttt);
+    return TTT();
+}
