@@ -9,6 +9,6 @@ Meteor.methods({
     },
     'analyze': function (name) {
         this.unblock();
-        console.log('this is the result', APP.analyze(name));
+        return APP.analyze(name);
     }
 });
