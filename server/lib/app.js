@@ -90,6 +90,15 @@ var updateWithSentiment = function (tweets, callback) {
     });
 }
 
+var recentlyUpdated = function (name) {
+    var now = new Date().getTime();
+    var timeAgo = 1000 * config.settings.cacheLimitInSeconds;
+
+    var previous  = ResultsCache.findOne(
+        {$and: [{name: name}, {lastUpdated: {$gt: new Date(now - timeAgo)}}]},
+        {fields: {_id: 0, result: 1}}
+    );
+}
 
 APP.init = function () {
     initDatum();
