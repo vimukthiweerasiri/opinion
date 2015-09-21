@@ -9,6 +9,6 @@ Meteor.methods({
     },
     'analyze': function (name) {
         this.unblock();
-        console.log('this is the Rresult', APP.analyze(name));
+        console.log('this is the result', APP.analyze(name));
     }
 });
