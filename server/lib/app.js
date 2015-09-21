@@ -102,10 +102,16 @@ APP.init = function () {
     initTwitter();
 }
 
-APP.analyze = function (name, callback) {
+APP.analyze = function (name) {
+    var syncAnalyze = Meteor.wrapAsync(analyze);
+    return syncAnalyze(name);
+}
+
+var analyze = function (name, callback) {
+    console.log('STARTED')
     var recentInfo = getRecentlyUpdatedInfo(name);
     if (recentInfo) {
-        callback(null, recentInfo, 'not calculated');
+        callback(null, recentInfo);
         return;
     }
     var tweetData= getTweets(name);
@@ -114,7 +120,7 @@ APP.analyze = function (name, callback) {
 
         updateWithSentiment(tweets, function (err, result) {
             ResultsCache.upsert({name: name}, {$set: {result: result, lastUpdated: new Date()}});
-            callback(null, result, 'calculated');
+            callback(null, result);
         });
 
     } else {

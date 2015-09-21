@@ -6,5 +6,9 @@ Meteor.methods({
     'test2': function(){
         console.log("CALLED");
         return 'second workingkjkkjk';
+    },
+    'analyze': function (name) {
+        this.unblock();
+        console.log('this is the Rresult', APP.analyze(name));
     }
 });
