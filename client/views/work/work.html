@@ -1,0 +1,11 @@
+<template name = "work">
+    <div class="ui container">
+        {{> input}}
+
+        <ul>
+            {{#each names}}
+                {{> segment .}}
+            {{/each}}
+        </ul>
+    </div>
+</template>

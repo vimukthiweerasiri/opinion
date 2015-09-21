@@ -1,31 +1,39 @@
 <template name = "segment">
     <div class="ui segment">
-        <h3 class="ui header" >VIMUKTHI WEERASIRI</h3>
-        <div class="ui statistics">
-            <div class="red statistic">
-                <div class="value">
-                    27%
+        <h3 class="ui header" >{{name}}</h3>
+        <div>
+            <div class="ui active inverted dimmer">
+                <div class="ui indeterminate text loader">Fetching data and analyzing...</div>
+            </div>
+        </div>
+        <div>
+            <div class="ui statistics">
+                <div class="red statistic">
+                    <div class="value">
+                        {{result.bad}}%
+                    </div>
+                    <div class="label">
+                        Bad
+                    </div>
                 </div>
-                <div class="label">
-                    Bad
+                <div class="yellow statistic">
+                    <div class="value">
+                        {{result.neutral}}%
+                    </div>
+                    <div class="label">
+                        Neutral
+                    </div>
+                </div>
+                <div class="green statistic">
+                    <div class="value">
+                        {{result.good}}%
+                    </div>
+                    <div class="label">
+                        Good
+                    </div>
                 </div>
             </div>
-            <div class="yellow statistic">
-                <div class="value">
-                    28%
-                </div>
-                <div class="label">
-                    Neutral
-                </div>
-            </div>
-            <div class="green statistic">
-                <div class="value">
-                    67%
-                </div>
-                <div class="label">
-                    Good
-                </div>
-            </div>
-       </div>
+        </div>
+
     </div>
 </template>
