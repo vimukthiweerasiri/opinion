@@ -90,7 +90,7 @@ var updateWithSentiment = function (tweets, callback) {
     });
 }
 
-var recentlyUpdated = function (name) {
+var getRecentlyUpdatedInfo = function (name) {
     var now = new Date().getTime();
     var timeAgo = 1000 * config.settings.cacheLimitInSeconds;
 
@@ -106,6 +106,7 @@ APP.init = function () {
 }
 
 APP.analyze = function (name) {
+
     var tweetData= getTweets(name);
     if(!tweetData.err && tweetData.data.statuses.length > 0) {
         var tweets = tweetData.data.statuses;
