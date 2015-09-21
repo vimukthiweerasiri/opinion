@@ -46,10 +46,6 @@ var getTweets = function (name) {
     return wrappedGetTweetAsync(name);
 }
 
-var shouldUpdated = function(name) {
-    return true;
-}
-
 var updateWithSentiment = function (tweets, callback) {
     var count = tweets.length;
     var positive = 0, negative = 0, neutral = 0;
@@ -98,6 +94,7 @@ var getRecentlyUpdatedInfo = function (name) {
         {$and: [{name: name}, {lastUpdated: {$gt: new Date(now - timeAgo)}}]},
         {fields: {_id: 0, result: 1}}
     );
+    return previous ? previous.result : previous;
 }
 
 APP.init = function () {
@@ -105,14 +102,19 @@ APP.init = function () {
     initTwitter();
 }
 
-APP.analyze = function (name) {
-
+APP.analyze = function (name, callback) {
+    var recentInfo = getRecentlyUpdatedInfo(name);
+    if (recentInfo) {
+        callback(null, recentInfo, 'not calculated');
+        return;
+    }
     var tweetData= getTweets(name);
     if(!tweetData.err && tweetData.data.statuses.length > 0) {
         var tweets = tweetData.data.statuses;
 
-        updateWithSentiment(tweets, function (err, results) {
-            console.log(results);
+        updateWithSentiment(tweets, function (err, result) {
+            ResultsCache.upsert({name: name}, {$set: {result: result, lastUpdated: new Date()}});
+            callback(null, result, 'calculated');
         });
 
     } else {
