@@ -24,7 +24,7 @@ Template.segment.helpers({
             }
             var total = result.negative + result.neutral + result.positive;
             if(total === 0) {
-                if(result.err === 501) Session.set('__NoResult' + name, true);
+                Session.set('__NoResult' + name, true);
                 return null;
             }
             var positive = Math.ceil((result.positive * 100) / total);
@@ -37,6 +37,7 @@ Template.segment.helpers({
         }
     },
     'noDate': function () {
-        
+        var noDataFlagName = '__NoResult' + Template.currentData();
+        return Session.get(noDataFlagName);
     }
 });

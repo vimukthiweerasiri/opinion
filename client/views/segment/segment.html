@@ -2,37 +2,41 @@
     <div class="ui container">
         <div class="ui segment">
             <h3 class="ui header">{{name}}</h3>
-            {{#unless result}}
-                <div class="ui active inverted dimmer">
-                    <div class="ui text loader">Loading</div>
+            {{#if noDate}}
+                <p>oops..There is not sufficient data to analyze</p>
+            {{else}}
+                {{#unless result}}
+                    <div class="ui active inverted dimmer">
+                        <div class="ui text loader">Loading</div>
+                    </div>
+                {{/unless}}
+                <div class="ui three statistics">
+                    <div class=" ui statistic red statistic">
+                        <div class="value">
+                            {{#with result}}{{this.negative}}{{else}}0{{/with}}%
+                        </div>
+                        <div class="label">
+                            Bad
+                        </div>
+                    </div>
+                    <div class=" ui statistic yellow statistic">
+                        <div class="value">
+                            {{#with result}}{{this.neutral}}{{else}}0{{/with}}%
+                        </div>
+                        <div class="label">
+                            Neutral
+                        </div>
+                    </div>
+                    <div class=" ui statistic green statistic">
+                        <div class="value">
+                            {{#with result}}{{this.positive}}{{else}}0{{/with}}%
+                        </div>
+                        <div class="label">
+                            Good
+                        </div>
+                    </div>
                 </div>
-            {{/unless}}
-            <div class="ui three statistics">
-                <div class=" ui statistic red statistic">
-                    <div class="value">
-                        {{#with result}}{{this.negative}}{{else}}0{{/with}}%
-                    </div>
-                    <div class="label">
-                        Bad
-                    </div>
-                </div>
-                <div class=" ui statistic yellow statistic">
-                    <div class="value">
-                        {{#with result}}{{this.neutral}}{{else}}0{{/with}}%
-                    </div>
-                    <div class="label">
-                        Neutral
-                    </div>
-                </div>
-                <div class=" ui statistic green statistic">
-                    <div class="value">
-                        {{#with result}}{{this.positive}}{{else}}0{{/with}}%
-                    </div>
-                    <div class="label">
-                        Good
-                    </div>
-                </div>
-            </div>
+            {{/if}}
         </div>
     </div>
 </template>
