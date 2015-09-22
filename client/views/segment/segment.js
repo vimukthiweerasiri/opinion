@@ -16,13 +16,15 @@ Template.segment.helpers({
         if (Session.get(name)) {
             var result = Session.get(name);
 
-            if(Object.keys(result).length === 0) {
-                showNoSufficientInfo();
+            if(Object.keys(result).length === 1) {
+                if(result.err === 500) Session.set('__TwitterError', true);
+                if(result.err === 501) Session.set('__NoResult' + name, true);
+                if(result.err === 502) Session.set('__DatumError', true);
                 return null;
             }
             var total = result.negative + result.neutral + result.positive;
             if(total === 0) {
-                showNoSufficientInfo();
+                if(result.err === 501) Session.set('__NoResult' + name, true);
                 return null;
             }
             var positive = Math.ceil((result.positive * 100) / total);
@@ -33,8 +35,8 @@ Template.segment.helpers({
          else{
             return null;
         }
+    },
+    'noDate': function () {
+        
     }
 });
-var showNoSufficientInfo = function () {
-    
-}

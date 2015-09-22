@@ -2,9 +2,30 @@
     <div class="ui container">
         {{> input}}
             <br>
-        {{#each names}}
-            {{> segment .}}
-            <br>
-        {{/each}}
+
+        {{#if twitterError}}
+            <div class="ui negative message">
+                <div class="header">
+                    Twitter Expired
+                </div>
+                <p>That offer has expired
+                </p>
+            </div>
+        {{else}}
+            {{#if datumError}}
+                <div class="ui negative message">
+                    <div class="header">
+                        Datum Expired
+                    </div>
+                    <p>That offer has expired
+                    </p>
+                </div>
+            {{else}}
+                {{#each names}}
+                    {{> segment .}}
+                    <br>
+                {{/each}}
+            {{/if}}
+        {{/if}}
     </div>
 </template>

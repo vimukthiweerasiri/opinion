@@ -65,10 +65,15 @@ var updateWithSentiment = function (tweets, callback) {
             if(count == 0) {
                 console.log('FINISHED UP')
                 callback(null, {positive: positive, neutral: neutral, negative: negative});
+                return;
             }
         } else {
             DATUM.twitterSentimentAnalysis(tweet, Meteor.bindEnvironment(function(err, resultSentiment) {
                 var result = -2;
+                if(err) {
+                    callback(null, {err: 502});
+                    return;
+                }
                 switch (resultSentiment){
                     case 'positive': result = 1; positive++; break;
                     case 'neutral': result = 0; neutral++; break;
@@ -80,6 +85,7 @@ var updateWithSentiment = function (tweets, callback) {
                 if (count == 0) {
                     console.log("FINISHED DOWN");
                     callback(null, {positive: positive, neutral: neutral, negative: negative});
+                    return;
                 }
             }));
         }
@@ -119,13 +125,22 @@ var analyze = function (name, callback) {
         var tweets = tweetData.data.statuses;
 
         updateWithSentiment(tweets, function (err, result) {
-            ResultsCache.upsert({name: name}, {$set: {result: result, lastUpdated: new Date()}});
-            callback(null, result);
+            if(result.err) {
+                callback(null, {err: 502});
+                return;
+            } else {
+                ResultsCache.upsert({name: name}, {$set: {result: result, lastUpdated: new Date()}});
+                callback(null, result);
+                return;
+            }
         });
 
-    } else {
-        //console.log('no data || Error:', tweetData.err);
-        callback(null, {});
+    } else if(tweetData.err){
+        callback(null, {err: 500});
+        return;
+    } else if(tweetData.data.statuses.length === 0) {
+        callback(null, {err: 501});
+        return;
     }
 }
 

@@ -14,5 +14,11 @@ Template.work.events({
 Template.work.helpers({
     'names': function () {
         return Session.get("names");
+    },
+    'twitterError': function () {
+        return Session.get('__TwitterError');
+    },
+    'datumError': function () {
+        return Session.get('__DatumError');
     }
 });
