@@ -3,7 +3,10 @@
         <div class="ui segment">
             <h3 class="ui header">{{name}}</h3>
             {{#if noDate}}
-                <p>oops..There is not sufficient data to analyze</p>
+                <div>
+                    <i class="frown icon"></i>
+                    <p>oops..There is no sufficient data to analyze</p>
+                </div>
             {{else}}
                 {{#unless result}}
                     <div class="ui active inverted dimmer">

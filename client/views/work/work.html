@@ -6,19 +6,17 @@
         {{#if twitterError}}
             <div class="ui negative message">
                 <div class="header">
-                    Twitter Expired
+                    Algorithm has exceeded Twitter API limits
                 </div>
-                <p>That offer has expired
-                </p>
+                <p>Please try by few hours.</p>
             </div>
         {{else}}
             {{#if datumError}}
                 <div class="ui negative message">
                     <div class="header">
-                        Datum Expired
+                        Algorithm has exceeded Datum API limits
                     </div>
-                    <p>That offer has expired
-                    </p>
+                    <p>Please try by few hours.</p>
                 </div>
             {{else}}
                 {{#each names}}
