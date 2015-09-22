@@ -1,11 +1,11 @@
 Template.work.events({
     "click #submit": function (event, template) {
         var newName = $("#inputName").val();
+        newName = newName.toLowerCase();
         $("#inputName").val("");
         var names = Session.get("names");
         if (newName !== "" && !_.contains(names, newName)) {
             names.unshift(newName);
-            //names.push(newName);
             Session.set("names", names);
         }
     }

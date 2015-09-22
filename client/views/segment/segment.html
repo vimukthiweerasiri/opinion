@@ -1,33 +1,32 @@
-<template name = "segment">
-    <div class="ui segment">
-        <h3 class="ui header" >{{name}}</h3>
-        <div hidden>
-            <div class="ui active inverted dimmer" id="loading">
-                <div class="ui indeterminate text loader">Fetching data and analyzing...</div>
-            </div>
-        </div>
-        <p id="abc"></p>
-        <div id="statistics">
-            <div class="ui statistics">
-                <div class="red statistic">
+<template name="segment">
+    <div class="ui container">
+        <div class="ui segment">
+            <h3 class="ui header">{{name}}</h3>
+            {{#unless result}}
+                <div class="ui active inverted dimmer">
+                    <div class="ui text loader">Loading</div>
+                </div>
+            {{/unless}}
+            <div class="ui three statistics">
+                <div class=" ui statistic red statistic">
                     <div class="value">
-                        {{result.negative}}%
+                        {{#with result}}{{this.negative}}{{else}}0{{/with}}%
                     </div>
                     <div class="label">
                         Bad
                     </div>
                 </div>
-                <div class="yellow statistic">
+                <div class=" ui statistic yellow statistic">
                     <div class="value">
-                        {{result.neutral}}%
+                        {{#with result}}{{this.neutral}}{{else}}0{{/with}}%
                     </div>
                     <div class="label">
                         Neutral
                     </div>
                 </div>
-                <div class="green statistic">
+                <div class=" ui statistic green statistic">
                     <div class="value">
-                        {{result.positive}}%
+                        {{#with result}}{{this.positive}}{{else}}0{{/with}}%
                     </div>
                     <div class="label">
                         Good
@@ -35,6 +34,5 @@
                 </div>
             </div>
         </div>
-
     </div>
 </template>

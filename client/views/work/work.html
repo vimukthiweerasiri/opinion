@@ -1,11 +1,10 @@
 <template name = "work">
     <div class="ui container">
         {{> input}}
-
-        <ul>
-            {{#each names}}
-                {{> segment .}}
-            {{/each}}
-        </ul>
+            <br>
+        {{#each names}}
+            {{> segment .}}
+            <br>
+        {{/each}}
     </div>
 </template>

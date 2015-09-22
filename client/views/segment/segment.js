@@ -18,12 +18,12 @@ Template.segment.helpers({
 
             if(Object.keys(result).length === 0) {
                 showNoSufficientInfo();
-                return {negative: 0, neutral:0, positive:0};
+                return null;
             }
             var total = result.negative + result.neutral + result.positive;
             if(total === 0) {
                 showNoSufficientInfo();
-                return {negative: 0, neutral:0, positive:0};
+                return null;
             }
             var positive = Math.ceil((result.positive * 100) / total);
             var negative = Math.ceil((result.negative * 100) / total);
@@ -31,7 +31,7 @@ Template.segment.helpers({
             return {negative: negative, neutral: neutral, positive: positive};
         }
          else{
-            return {negative: 0, neutral:0, positive:0};
+            return null;
         }
     }
 });
